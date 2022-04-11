@@ -450,20 +450,23 @@ module.exports = class HL7 {
     this.encoded = '';
     if (this.isBatch()) {
       this.header.forEach(data => {
-        this.encoded += _build(data.transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join('\r\n');
-        this.encoded += '\r\n';
+        this.encoded += _build(data.transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join(String.fromCharCode(13));
+        this.encoded += String.fromCharCode(13);
       });
       this.container.forEach(data => {
-        this.encoded += _build(data.transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join('\r\n');
-        this.encoded += '\r\n';
+        this.encoded += _build(data.transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join(String.fromCharCode(13));
+        this.encoded += String.fromCharCode(13);
       });
       this.trailer.forEach(data => {
-        this.encoded += _build(data.transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join('\r\n');
-        this.encoded += '\r\n';
+        this.encoded += _build(data.transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join(String.fromCharCode(13));
+        this.encoded += String.fromCharCode(13);
       });
     } else {
-      this.encoded += _build(transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join('\r\n');
+      this.encoded += _build(transformed, parseOptions).sort((a, b) => a.index - b.index).map(line => line.line).join(String.fromCharCode(13));
     }
+
+    this.encoded += String.fromCharCode(13); // must end with carriage return
+
     return this.encoded;
   }
 
